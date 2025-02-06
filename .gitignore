@@ -1,0 +1,49 @@
+# Arquivos de compilação e binários
+*.exe
+*.dll
+*.bpl
+*.dcu
+*.dcp
+*.dsk
+*.identcache
+*.local
+*.stat
+*.tvsconfig
+
+# Arquivos de backup e temporários
+*.~*
+*.bak
+*.dof
+*.cfg
+*.map
+*.rsm
+*.dsm
+*.drc
+*.dres
+*.ddp
+*.dproj.local
+*.tvsconfig
+
+# Arquivos do Delphi que podem ser gerados novamente
+__history/
+__recovery/
+*.bdsproj
+*.dproj
+*.dproj.
+*.dproj.local
+*.groupproj
+*.groupproj.local
+
+# Arquivos do CodeGear/Embarcadero
+*.identcache
+*.local
+*.tvsconfig
+*.stat
+*.identcache
+
+# Diretórios de saída
+Win32/
+Win64/
+Debug/
+Release/
+Build/
