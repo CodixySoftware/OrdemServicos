@@ -22,10 +22,9 @@ type
     dtsServicos: TDataSource;
     edtValor: TcxDBCurrencyEdit;
     chkAtivo: TDBCheckBox;
-    DBLookupComboBox1: TDBLookupComboBox;
     dtsCategoria: TDataSource;
-    JvDBLookupCombo1: TJvDBLookupCombo;
     cxDBLookupComboBox1: TcxDBLookupComboBox;
+    Label1: TLabel;
     procedure btnFecharClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnConfirmarClick(Sender: TObject);
@@ -70,7 +69,6 @@ begin
       FieldByName('fator_base_calculo_cofins_st').AsFloat := 0.00;
       FieldByName('natureza_operacao_issqn').AsInteger := 1;
       Post;
-      ShowMessage('Serviço inserido ou alterado com sucesso!');
       Refresh;
     end;
   FrmCadServicos.Close;
