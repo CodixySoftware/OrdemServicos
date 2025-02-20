@@ -4,7 +4,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
   BorderStyle = bsSingle
   Caption = 'Gerar ordem de Servi'#231'os'
   ClientHeight = 713
-  ClientWidth = 1130
+  ClientWidth = 1244
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,9 +23,9 @@ object FrmOrdemServicos: TFrmOrdemServicos
   TextHeight = 16
   object grpTotais: TGroupBox
     AlignWithMargins = True
-    Left = 895
+    Left = 968
     Top = 108
-    Width = 230
+    Width = 271
     Height = 548
     Margins.Left = 5
     Margins.Top = 5
@@ -34,7 +34,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
     Align = alRight
     TabOrder = 0
     object lblServicos: TLabel
-      Left = 83
+      Left = 123
       Top = 125
       Width = 137
       Height = 30
@@ -47,7 +47,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       ParentFont = False
     end
     object lblItens: TLabel
-      Left = 74
+      Left = 114
       Top = 200
       Width = 146
       Height = 30
@@ -60,7 +60,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       ParentFont = False
     end
     object lblOS: TLabel
-      Left = 90
+      Left = 130
       Top = 316
       Width = 130
       Height = 30
@@ -75,9 +75,9 @@ object FrmOrdemServicos: TFrmOrdemServicos
     object Label1: TLabel
       Left = 75
       Top = 10
-      Width = 136
+      Width = 81
       Height = 37
-      Caption = 'TOTAL O.S.'
+      Caption = 'TOTAL'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -27
@@ -1796,7 +1796,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
         476767671774E1FF0160622251CBE9EF240000000049454E44AE426082}
     end
     object Label2: TLabel
-      Left = 22
+      Left = 62
       Top = 398
       Width = 152
       Height = 21
@@ -1809,7 +1809,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       ParentFont = False
     end
     object Label3: TLabel
-      Left = 17
+      Left = 57
       Top = 425
       Width = 157
       Height = 21
@@ -1822,7 +1822,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       ParentFont = False
     end
     object lblQtdProdutos: TLabel
-      Left = 180
+      Left = 220
       Top = 425
       Width = 40
       Height = 21
@@ -1836,7 +1836,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       ParentFont = False
     end
     object lblQtdServicos: TLabel
-      Left = 180
+      Left = 220
       Top = 398
       Width = 40
       Height = 21
@@ -1849,8 +1849,21 @@ object FrmOrdemServicos: TFrmOrdemServicos
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object Label7: TLabel
+      Left = 75
+      Top = 35
+      Width = 81
+      Height = 37
+      Caption = 'TOTAL'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -27
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object EdtTotalServicos: TDBEdit
-      Left = 10
+      Left = 50
       Top = 156
       Width = 210
       Height = 40
@@ -1866,7 +1879,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       TabOrder = 0
     end
     object EdtTotalProduto: TDBEdit
-      Left = 17
+      Left = 57
       Top = 236
       Width = 210
       Height = 40
@@ -1882,7 +1895,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
       TabOrder = 1
     end
     object EdtTotalOS: TDBEdit
-      Left = 10
+      Left = 50
       Top = 347
       Width = 210
       Height = 45
@@ -1901,12 +1914,13 @@ object FrmOrdemServicos: TFrmOrdemServicos
   object GroupBox1: TGroupBox
     Left = 0
     Top = 661
-    Width = 1130
+    Width = 1244
     Height = 52
     Align = alBottom
     TabOrder = 1
+    ExplicitWidth = 1130
     DesignSize = (
-      1130
+      1244
       52)
     object btnConfirmar: TBitBtn
       AlignWithMargins = True
@@ -1942,7 +1956,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
     end
     object btnFechar: TBitBtn
       AlignWithMargins = True
-      Left = 992
+      Left = 1106
       Top = 3
       Width = 120
       Height = 38
@@ -1956,13 +1970,14 @@ object FrmOrdemServicos: TFrmOrdemServicos
       ParentFont = False
       TabOrder = 2
       OnClick = btnFecharClick
+      ExplicitLeft = 992
     end
   end
   object grpClient: TGroupBox
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 1124
+    Width = 1238
     Height = 97
     Align = alTop
     Caption = '  Ordem de Servi'#231'o  '
@@ -1973,9 +1988,23 @@ object FrmOrdemServicos: TFrmOrdemServicos
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    ExplicitWidth = 1124
+    object Label6: TLabel
+      Left = 895
+      Top = 33
+      Width = 64
+      Height = 30
+      Caption = 'Label6'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object edtNome: TEdit
       Left = 96
-      Top = 32
+      Top = 33
       Width = 505
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -2066,7 +2095,13 @@ object FrmOrdemServicos: TFrmOrdemServicos
       Left = 16
       Top = 32
       Width = 66
-      Height = 22
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
       TabOrder = 0
       OnExit = edtCodigoExit
       OnKeyDown = edtCodigoKeyDown
@@ -2125,7 +2160,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
     AlignWithMargins = True
     Left = 3
     Top = 106
-    Width = 884
+    Width = 957
     Height = 552
     Align = alClient
     PageIndex = 2
@@ -2135,10 +2170,14 @@ object FrmOrdemServicos: TFrmOrdemServicos
     TabFont.Name = 'Tahoma'
     TabFont.Style = []
     TabOrder = 3
+    ExplicitWidth = 884
     object TTabPage
       Left = 4
-      Top = 27
+      Top = 24
       Caption = 'Geral'
+      ExplicitTop = 27
+      ExplicitWidth = 876
+      ExplicitHeight = 521
       object Label4: TLabel
         Left = 14
         Top = 321
@@ -2357,14 +2396,17 @@ object FrmOrdemServicos: TFrmOrdemServicos
     end
     object TTabPage
       Left = 4
-      Top = 27
+      Top = 24
       Caption = 'Servi'#231'os'
+      ExplicitTop = 27
+      ExplicitWidth = 876
+      ExplicitHeight = 521
       object dbgrdServicos: TDBGrid
         AlignWithMargins = True
         Left = 5
         Top = 163
-        Width = 866
-        Height = 296
+        Width = 939
+        Height = 299
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -2435,7 +2477,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
         AlignWithMargins = True
         Left = 5
         Top = 5
-        Width = 866
+        Width = 939
         Height = 148
         Margins.Left = 5
         Margins.Top = 5
@@ -2443,6 +2485,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
         Margins.Bottom = 5
         Align = alTop
         TabOrder = 1
+        ExplicitWidth = 866
         object lblServico: TLabel
           Left = 12
           Top = 24
@@ -2564,8 +2607,8 @@ object FrmOrdemServicos: TFrmOrdemServicos
       object GroupBox3: TGroupBox
         AlignWithMargins = True
         Left = 5
-        Top = 469
-        Width = 866
+        Top = 472
+        Width = 939
         Height = 47
         Margins.Left = 5
         Margins.Top = 5
@@ -2573,6 +2616,8 @@ object FrmOrdemServicos: TFrmOrdemServicos
         Margins.Bottom = 5
         Align = alBottom
         TabOrder = 2
+        ExplicitTop = 469
+        ExplicitWidth = 866
         object btnAlterarServico: TBitBtn
           Left = 8
           Top = 5
@@ -2595,14 +2640,17 @@ object FrmOrdemServicos: TFrmOrdemServicos
     end
     object TTabPage
       Left = 4
-      Top = 27
+      Top = 24
       Caption = 'Itens/Pe'#231'as'
+      ExplicitTop = 27
+      ExplicitWidth = 876
+      ExplicitHeight = 521
       object dbgrdProdutos: TDBGrid
         AlignWithMargins = True
         Left = 5
         Top = 163
-        Width = 866
-        Height = 296
+        Width = 939
+        Height = 299
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -2679,8 +2727,8 @@ object FrmOrdemServicos: TFrmOrdemServicos
       object GroupBox4: TGroupBox
         AlignWithMargins = True
         Left = 5
-        Top = 469
-        Width = 866
+        Top = 472
+        Width = 939
         Height = 47
         Margins.Left = 5
         Margins.Top = 5
@@ -2688,6 +2736,8 @@ object FrmOrdemServicos: TFrmOrdemServicos
         Margins.Bottom = 5
         Align = alBottom
         TabOrder = 1
+        ExplicitTop = 469
+        ExplicitWidth = 866
         object btnExcluir: TBitBtn
           Left = 133
           Top = 5
@@ -2711,7 +2761,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
         AlignWithMargins = True
         Left = 5
         Top = 5
-        Width = 866
+        Width = 939
         Height = 148
         Margins.Left = 5
         Margins.Top = 5
@@ -2719,6 +2769,7 @@ object FrmOrdemServicos: TFrmOrdemServicos
         Margins.Bottom = 5
         Align = alTop
         TabOrder = 2
+        ExplicitWidth = 866
         object lblProduto: TLabel
           Left = 12
           Top = 24
@@ -2843,8 +2894,11 @@ object FrmOrdemServicos: TFrmOrdemServicos
     end
     object TTabPage
       Left = 4
-      Top = 27
+      Top = 24
       Caption = 'Observa'#231#245'es'
+      ExplicitTop = 27
+      ExplicitWidth = 876
+      ExplicitHeight = 521
       object mmoObservacoes: TMemo
         Left = 12
         Top = 24

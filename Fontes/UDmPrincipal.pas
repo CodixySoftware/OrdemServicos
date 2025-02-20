@@ -73,7 +73,7 @@ end;
 
 procedure TDmPrincipal.DataModuleCreate(Sender: TObject);
 begin
-  DmPrincipal.ConfigureConnectionFromXML;
+    ConfigureConnectionFromXML;
 end;
 
 end.

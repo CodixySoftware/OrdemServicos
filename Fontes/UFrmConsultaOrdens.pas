@@ -72,6 +72,17 @@ type
     scLabel7: TscLabel;
     scGPGlyphButton12: TscGPGlyphButton;
     scGPGlyphButton14: TscGPGlyphButton;
+    qryConsultaOrdemehOrcamento: TIntegerField;
+    qryConsultaOrdemTipo: TStringField;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    qryTotaisQuantidade_OS: TIntegerField;
+    qryTotaisQuantidade_Orcamento: TIntegerField;
+    qryTotaisVTotal_OS: TFMTBCDField;
+    qryTotaisVTotal_Orcamento: TFMTBCDField;
     procedure dbgrdOrdensDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure btnCancelarClick(Sender: TObject);
@@ -128,7 +139,7 @@ end;
 procedure TFrmConsultaOrdens.CarregarOrdensPendente;
 begin
   qryConsultaOrdem.Close;
-  qryConsultaOrdem.SQL.Add('WHERE situacao = ''Pendente'' AND id_filial = :idfilial');
+  qryConsultaOrdem.SQL.Add('WHERE situacao IN (''Pendente'', ''Aguardando Aprovação'') AND id_filial = :idfilial');
   qryConsultaOrdem.ParamByName('idfilial').AsInteger := TUserSession.GetInstance.FilialTrabalhoID;
   qryConsultaOrdem.Open;
 end;
@@ -136,7 +147,7 @@ end;
 procedure TFrmConsultaOrdens.CarregarTotaisPendente;
 begin
   qryTotais.close;
-  qryTotais.SQL.Add('WHERE situacao = ''Pendente'' AND id_filial = :idfilial');
+  qryTotais.SQL.Add('WHERE situacao IN (''Pendente'', ''Aguardando Aprovação'') AND id_filial = :idfilial');
   qryTotais.ParamByName('idfilial').AsInteger := TUserSession.GetInstance.FilialTrabalhoID;
   qryTotais.Open;
 end;

@@ -10,7 +10,6 @@ object DmPrincipal: TDmPrincipal
       'Password=codixy'
       'Server=.\codixy'
       'DriverID=MSSQL')
-    Connected = True
     LoginPrompt = False
     Left = 40
     Top = 24

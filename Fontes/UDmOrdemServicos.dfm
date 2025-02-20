@@ -55,7 +55,7 @@ object DmOrdemServicos: TDmOrdemServicos
     Connection = DmPrincipal.connPrincipal
     SQL.Strings = (
       'use hiper'
-      'select observacao from ordem_servico'
+      'select observacao, ehOrcamento from ordem_servico'
       'where id_ordem_servico = :idOrdemServico')
     Left = 248
     Top = 16
@@ -379,5 +379,10 @@ object DmOrdemServicos: TDmOrdemServicos
       Precision = 12
       Size = 2
     end
+  end
+  object fdTransaction: TFDTransaction
+    Connection = DmPrincipal.connPrincipal
+    Left = 176
+    Top = 136
   end
 end

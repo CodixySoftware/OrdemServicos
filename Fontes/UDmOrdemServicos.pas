@@ -42,6 +42,7 @@ type
     qTotalvProduto: TFMTBCDField;
     qTotalvServico: TFMTBCDField;
     qTotalVTotal: TFMTBCDField;
+    fdTransaction: TFDTransaction;
   private
     { Private declarations }
   public

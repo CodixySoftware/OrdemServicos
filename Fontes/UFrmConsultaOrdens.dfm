@@ -3,8 +3,8 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   Top = 0
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
-  ClientHeight = 680
-  ClientWidth = 990
+  ClientHeight = 664
+  ClientWidth = 1029
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   TextHeight = 13
   object BtnAlterar: TBitBtn
     Left = 139
-    Top = 573
+    Top = 589
     Width = 125
     Height = 30
     Caption = 'Alterar'
@@ -37,7 +37,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   end
   object BtnCancelar: TBitBtn
     Left = 401
-    Top = 573
+    Top = 589
     Width = 125
     Height = 30
     Caption = 'Cancelar'
@@ -52,7 +52,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   end
   object BtnEstornar: TBitBtn
     Left = 8
-    Top = 609
+    Top = 625
     Width = 125
     Height = 30
     Caption = 'Estornar OS'
@@ -67,7 +67,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   end
   object BtnExportar: TBitBtn
     Left = 532
-    Top = 573
+    Top = 589
     Width = 125
     Height = 30
     Caption = 'Exportar'
@@ -75,8 +75,8 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
     OnClick = BtnExportarClick
   end
   object BtnFechar: TBitBtn
-    Left = 851
-    Top = 572
+    Left = 896
+    Top = 583
     Width = 125
     Height = 30
     Caption = 'Fechar (ESC)'
@@ -91,7 +91,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   end
   object BtnImprimir: TBitBtn
     Left = 270
-    Top = 573
+    Top = 589
     Width = 125
     Height = 30
     Caption = 'Imprimir'
@@ -106,7 +106,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   end
   object BtnNovaOS: TBitBtn
     Left = 8
-    Top = 573
+    Top = 589
     Width = 125
     Height = 30
     Caption = 'Nova OS'
@@ -122,7 +122,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   object dbgrdOrdens: TDBGrid
     Left = 8
     Top = 200
-    Width = 968
+    Width = 1013
     Height = 306
     DataSource = DtsConsultaOrdens
     Font.Charset = DEFAULT_CHARSET
@@ -150,7 +150,21 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
         Title.Font.Height = -13
         Title.Font.Name = 'Tahoma'
         Title.Font.Style = []
-        Width = 73
+        Width = 60
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'Tipo'
+        Title.Alignment = taCenter
+        Title.Caption = 'Finalidade'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -13
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = []
+        Width = 107
         Visible = True
       end
       item
@@ -163,7 +177,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
         Title.Font.Height = -13
         Title.Font.Name = 'Tahoma'
         Title.Font.Style = []
-        Width = 437
+        Width = 351
         Visible = True
       end
       item
@@ -202,7 +216,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
         Title.Font.Height = -13
         Title.Font.Name = 'Tahoma'
         Title.Font.Style = []
-        Width = 108
+        Width = 147
         Visible = True
       end
       item
@@ -222,7 +236,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   object grpBusca: TGroupBox
     Left = 8
     Top = 39
-    Width = 968
+    Width = 1013
     Height = 56
     Caption = '  Pesquisa r'#225'pida (n'#250'mero da OS, nome do cliente)  '
     Font.Charset = ANSI_CHARSET
@@ -247,7 +261,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       OnKeyPress = EdtPesquisaKeyPress
     end
     object BtnPesquisa: TBitBtn
-      Left = 799
+      Left = 855
       Top = 23
       Width = 140
       Height = 30
@@ -259,7 +273,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   object grpPesquisaAvancada: TGroupBox
     Left = 8
     Top = 101
-    Width = 968
+    Width = 1013
     Height = 90
     Caption = '  Filtros da busca avan'#231'ada  '
     TabOrder = 9
@@ -290,8 +304,8 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       ParentFont = False
     end
     object lblSituacao: TLabel
-      Left = 626
-      Top = 24
+      Left = 682
+      Top = 23
       Width = 65
       Height = 19
       Caption = 'Situa'#231#227'o:'
@@ -316,7 +330,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       ParentFont = False
     end
     object lblFilial: TLabel
-      Left = 653
+      Left = 709
       Top = 56
       Width = 38
       Height = 19
@@ -342,7 +356,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       TabOrder = 0
     end
     object cbSituacao: TComboBox
-      Left = 706
+      Left = 762
       Top = 21
       Width = 233
       Height = 24
@@ -366,7 +380,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
         'OR'#199'AMENTO PERDIDO')
     end
     object cbFilial: TComboBox
-      Left = 706
+      Left = 762
       Top = 51
       Width = 233
       Height = 24
@@ -407,42 +421,48 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   object grptotais: TGroupBox
     Left = 8
     Top = 512
-    Width = 968
-    Height = 56
-    Caption = '  Resumo das Ordens de Servi'#231'o  '
+    Width = 504
+    Height = 65
+    Caption = ' Ordens de Servi'#231'os '
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 10
     object lblQuantidadeOrdens: TLabel
-      Left = 176
-      Top = 23
-      Width = 133
-      Height = 16
-      Caption = 'Quantidade de Ordens:'
-      Font.Charset = DEFAULT_CHARSET
+      Left = 15
+      Top = 25
+      Width = 71
+      Height = 17
+      Caption = 'Quantidade:'
+      Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Tahoma'
+      Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
     end
     object lblValorTotal: TLabel
-      Left = 472
-      Top = 23
-      Width = 68
-      Height = 16
+      Left = 232
+      Top = 25
+      Width = 65
+      Height = 17
       Caption = 'Valor Total:'
-      Font.Charset = DEFAULT_CHARSET
+      Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
-      Font.Name = 'Tahoma'
+      Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
     end
     object EdtQuantidadeOrdem: TDBEdit
-      Left = 315
+      Left = 92
       Top = 20
       Width = 110
       Height = 25
-      DataField = 'Quantidade'
+      DataField = 'Quantidade_OS'
       DataSource = DtsTotal
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -453,11 +473,11 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       TabOrder = 0
     end
     object EdtTotal: TDBEdit
-      Left = 546
+      Left = 306
       Top = 20
       Width = 121
       Height = 25
-      DataField = 'VTotal'
+      DataField = 'VTotal_OS'
       DataSource = DtsTotal
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -471,7 +491,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
   object scGPPanel3: TscGPPanel
     Left = 0
     Top = 0
-    Width = 990
+    Width = 1029
     Height = 34
     Align = alTop
     FluentUIOpaque = False
@@ -514,12 +534,10 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
     Sizeable = False
     WallpaperIndex = -1
     WordWrap = False
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 986
+    ExplicitWidth = 990
     object scGPGlyphButton9: TscGPGlyphButton
       AlignWithMargins = True
-      Left = 945
+      Left = 984
       Top = 0
       Width = 45
       Height = 30
@@ -635,11 +653,11 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       GroupIndex = 0
       AllowAllUp = False
       ToggleMode = False
-      ExplicitLeft = 941
+      ExplicitLeft = 945
     end
     object scGPGlyphButton10: TscGPGlyphButton
       AlignWithMargins = True
-      Left = 855
+      Left = 894
       Top = 0
       Width = 45
       Height = 30
@@ -755,12 +773,12 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       GroupIndex = 0
       AllowAllUp = False
       ToggleMode = False
-      ExplicitLeft = 851
+      ExplicitLeft = 855
     end
     object scLabel7: TscLabel
       Left = 35
       Top = 0
-      Width = 820
+      Width = 859
       Height = 34
       Margins.Left = 0
       Margins.Top = 0
@@ -790,7 +808,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       ShowEllipsis = True
       UseFontColorToStyleColor = True
       Caption = 'Codixy Software - ERP'
-      ExplicitWidth = 816
+      ExplicitWidth = 820
     end
     object scGPGlyphButton12: TscGPGlyphButton
       AlignWithMargins = True
@@ -912,7 +930,7 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
     end
     object scGPGlyphButton14: TscGPGlyphButton
       AlignWithMargins = True
-      Left = 900
+      Left = 939
       Top = 0
       Width = 45
       Height = 30
@@ -1027,7 +1045,77 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       GroupIndex = 0
       AllowAllUp = False
       ToggleMode = False
-      ExplicitLeft = 896
+      ExplicitLeft = 900
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 517
+    Top = 512
+    Width = 504
+    Height = 65
+    Caption = '  Or'#231'amentos  '
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 12
+    object Label1: TLabel
+      Left = 16
+      Top = 25
+      Width = 71
+      Height = 17
+      Caption = 'Quantidade:'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 232
+      Top = 25
+      Width = 65
+      Height = 17
+      Caption = 'Valor Total:'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DBEdit1: TDBEdit
+      Left = 92
+      Top = 20
+      Width = 110
+      Height = 25
+      DataField = 'Quantidade_Orcamento'
+      DataSource = DtsTotal
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+    end
+    object DBEdit2: TDBEdit
+      Left = 306
+      Top = 20
+      Width = 121
+      Height = 25
+      DataField = 'VTotal_Orcamento'
+      DataSource = DtsTotal
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
     end
   end
   object DtsConsultaOrdens: TDataSource
@@ -1092,7 +1180,6 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
     object qryConsultaOrdemSituacao: TStringField
       FieldName = 'Situacao'
       Origin = 'Situacao'
-      Size = 10
     end
     object qryConsultaOrdemdata_hora_cadastro: TSQLTimeStampField
       FieldName = 'data_hora_cadastro'
@@ -1163,16 +1250,60 @@ object FrmConsultaOrdens: TFrmConsultaOrdens
       Origin = 'objeto_adicional2'
       Size = 30
     end
+    object qryConsultaOrdemehOrcamento: TIntegerField
+      FieldName = 'ehOrcamento'
+    end
+    object qryConsultaOrdemTipo: TStringField
+      FieldName = 'Tipo'
+      ReadOnly = True
+      Size = 9
+    end
   end
   object qryTotais: TFDQuery
     Connection = DmPrincipal.connPrincipal
     SQL.Strings = (
       'SELECT '
-      '    COUNT(*) AS Quantidade,'
-      '    SUM(COALESCE(VProduto, 0) + COALESCE(VServico, 0)) AS VTotal'
+      
+        '    SUM(CASE WHEN ehOrcamento = 0 THEN 1 ELSE 0 END) AS Quantida' +
+        'de_OS,'
+      
+        '    SUM(CASE WHEN ehOrcamento = 1 THEN 1 ELSE 0 END) AS Quantida' +
+        'de_Orcamento,'
+      
+        '    SUM(CASE WHEN ehOrcamento = 0 THEN COALESCE(VProduto, 0) + C' +
+        'OALESCE(VServico, 0) ELSE 0 END) AS VTotal_OS,'
+      
+        '    SUM(CASE WHEN ehOrcamento = 1 THEN COALESCE(VProduto, 0) + C' +
+        'OALESCE(VServico, 0) ELSE 0 END) AS VTotal_Orcamento'
       'FROM '
       '    view_consulta_ordem')
     Left = 48
     Top = 408
+    object qryTotaisQuantidade_OS: TIntegerField
+      FieldName = 'Quantidade_OS'
+      Origin = 'Quantidade_OS'
+      ReadOnly = True
+    end
+    object qryTotaisQuantidade_Orcamento: TIntegerField
+      FieldName = 'Quantidade_Orcamento'
+      Origin = 'Quantidade_Orcamento'
+      ReadOnly = True
+    end
+    object qryTotaisVTotal_OS: TFMTBCDField
+      FieldName = 'VTotal_OS'
+      Origin = 'VTotal_OS'
+      ReadOnly = True
+      currency = True
+      Precision = 38
+      Size = 2
+    end
+    object qryTotaisVTotal_Orcamento: TFMTBCDField
+      FieldName = 'VTotal_Orcamento'
+      Origin = 'VTotal_Orcamento'
+      ReadOnly = True
+      currency = True
+      Precision = 38
+      Size = 2
+    end
   end
 end

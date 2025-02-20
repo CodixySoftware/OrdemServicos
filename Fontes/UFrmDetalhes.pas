@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,ShellAPI,QRPDFFilt;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,ShellAPI,QRPDFFilt,Math;
 
 type
   TFrmDetalhe = class(TForm)
@@ -18,12 +18,15 @@ type
     cbFilial: TComboBox;
     lblFilial: TLabel;
     BtnImprimir: TBitBtn;
+    Label1: TLabel;
+    cbMotivo: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
     procedure btnConfirmarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BtnImprimirClick(Sender: TObject);
+    procedure cbSituacaoSelect(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,7 +40,7 @@ implementation
 
 uses
   UOrdemServicos, UProcedures, UFrmMenu, UFrmRelTCM, URelOrdemSeta, UFrmConsultaOrdens,
-  UserData, view.Principal;
+  UserData, view.Principal, UDmOrdemServicos;
 
 {$R *.dfm}
 procedure OpenPDF(aFile : TFileName; TypeForm : Integer = SW_NORMAL);
@@ -52,37 +55,29 @@ end;
 
 procedure TFrmDetalhe.btnConfirmarClick(Sender: TObject);
 var
-  situacao,Filial: Integer;
+  situacao, filial, subTipo, ehOrcamento: Integer;
 begin
-  if cbSituacao.ItemIndex = 0 then
-    begin
-      situacao:= 0;
-    end;
-  if cbSituacao.ItemIndex = 1 then
-    begin
-      situacao := 2;
-    end;
-  if cbSituacao.ItemIndex = 3 then
-    begin
-      situacao:= 4;
-    end;
-  if cbSituacao.ItemIndex = 4 then
-    begin
-      situacao := 5;
-    end;
+  ehOrcamento := FrmOrdemServicos.ehOrcamento;
 
-  if cbFilial.ItemIndex = 0 then
-     begin
-       filial:= 2;
-     end
-  else
-    begin
-      filial:= 1;
-    end;
+  situacao := Integer(cbSituacao.Items.Objects[cbSituacao.ItemIndex]);
 
-  detalhes(FrmOrdemServicos.idOrdemServico,situacao,filial);
-  FrmOrdemServicos.Close;
+  //Caso a opção selecionada seja 7 - Aprovado o mesmo altera para Pendente
+  if situacao = 7 then
+     situacao := 0;
+
+  if ehOrcamento = 1 then
+     subTipo := Integer(cbMotivo.Items.Objects[cbMotivo.ItemIndex]);
+
+   // Definir filial com base no ItemIndex
+  filial := IfThen(cbFilial.ItemIndex = 0, 2, 1);
+
+  // Chamar a função detalhes apenas se idOrdemServico for válido
+  if FrmOrdemServicos.idOrdemServico > 0 then
+    detalhes(FrmOrdemServicos.idOrdemServico, situacao, filial,ehOrcamento,subTipo);
+
+  // Fechar as telas na ordem correta
   FrmDetalhe.Close;
+  FrmOrdemServicos.Close;
 
 end;
 
@@ -117,6 +112,15 @@ begin
       end;
 end;
 
+procedure TFrmDetalhe.cbSituacaoSelect(Sender: TObject);
+var
+  Visivel: Boolean;
+begin
+  Visivel := (cbSituacao.ItemIndex = 2);
+  Label1.Visible := Visivel;
+  cbMotivo.Visible := Visivel;
+end;
+
 procedure TFrmDetalhe.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action:= caFree;
@@ -124,16 +128,43 @@ begin
 end;
 
 procedure TFrmDetalhe.FormCreate(Sender: TObject);
+var
+  FilialID: Integer;
 begin
   FrmDetalhe.Caption := 'Detalhes da Ordem de Serviço';
-  if TUserSession.GetInstance.FilialTrabalhoID = 2 then
-    begin
-      cbFilial.ItemIndex := 0;
-    end
-  else if TUserSession.GetInstance.FilialTrabalhoID = 1 then
-    begin
-      cbFilial.ItemIndex := 1;
-    end;
+
+  FilialID := TUserSession.GetInstance.FilialTrabalhoID;
+
+  case FilialID of
+    2: cbFilial.ItemIndex := 0;
+    1: cbFilial.ItemIndex := 1;
+  end;
+
+  if FrmOrdemServicos.ehOrcamento = 1 then
+      begin
+        FrmDetalhe.Caption := 'Detalhe do Orçamento';
+        cbSituacao.Clear;
+        cbSituacao.Items.AddObject('Aguardando Aprovação',TObject(6));
+        cbSituacao.Items.AddObject('Aprovado',TObject(7));
+        cbSituacao.Items.AddObject('Perdido',TObject(8));
+
+        cbMotivo.Clear;
+        cbMotivo.Items.AddObject('Perdido - Preço',TObject(9));
+        cbMotivo.Items.AddObject('Perdido - Concorrência',TObject(10));
+        cbMotivo.Items.AddObject('Perdido - Prazo',TObject(11));
+        cbSituacao.ItemIndex := 0;
+        cbMotivo.ItemIndex := 0;
+      end
+  else
+      begin
+        cbSituacao.Clear;
+        cbSituacao.Items.AddObject('Pendente',TObject(0));
+        cbSituacao.Items.AddObject('Finalizada',TObject(2));
+        cbSituacao.ItemIndex := 0;
+      end;
+
+
+
 end;
 
 procedure TFrmDetalhe.FormKeyDown(Sender: TObject; var Key: Word;

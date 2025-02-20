@@ -10,7 +10,7 @@ uses
   IniFiles, ACBrBase, ACBrEnterTab, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
   dxSkinsDefaultPainters, cxTextEdit, cxCurrencyEdit, scControls, scGPControls,
-  dxGDIPlusClasses;
+  dxGDIPlusClasses,FireDAC.Stan.Param,System.UITypes;
 
 type
   TFrmOrdemServicos = class(TForm)
@@ -97,6 +97,8 @@ type
     EdtCodigoProduto: TEdit;
     edtNomeProd: TEdit;
     btnBusca: TBitBtn;
+    Label6: TLabel;
+    Label7: TLabel;
     procedure edtCodigoExit(Sender: TObject);
     procedure btnConsultaClientesClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
@@ -133,6 +135,8 @@ type
     procedure EdtVlrProdutoUnitarioExit(Sender: TObject);
     procedure scGPGlyphButton9Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure AbrirOrcamentoOuOS;
+    function MostrarDialogo: Integer;
 
 
   private
@@ -152,7 +156,7 @@ type
     { Private declarations }
   public
    var
-     idOrdemServico,ehEdicaoOrdem,edicao,edicao_servico, edicao_produto, edicao_ordem : Integer;
+     idOrdemServico,ehEdicaoOrdem,edicao,edicao_servico, edicao_produto, edicao_ordem, ehOrcamento : Integer;
      texto:string;
 
   end;
@@ -468,6 +472,48 @@ begin
 end;
 
 
+function TFrmOrdemServicos.MostrarDialogo: Integer;
+var
+  Dlg: TForm;
+  BtnOrdem, BtnOrcamento: TButton;
+begin
+  Dlg := CreateMessageDialog('Deseja realizar qual operação?', mtConfirmation, []);
+  try
+    Dlg.Caption := 'Confirmação'; // Define o título da janela
+    Dlg.Position := poScreenCenter;
+    Dlg.Width := 290;
+    Dlg.Height:= 150;
+    Dlg.BorderStyle := bsDialog; // Remove a possibilidade de fechar a janela
+
+    // Remover o botão de fechar
+    SetWindowLong(Dlg.Handle, GWL_STYLE, GetWindowLong(Dlg.Handle, GWL_STYLE) and not WS_SYSMENU);
+    // Criando botão "Ordem"
+    BtnOrdem := TButton.Create(Dlg);
+    BtnOrdem.Parent := Dlg;
+    BtnOrdem.Caption := 'Ordem';
+    BtnOrdem.ModalResult := mrYes;  // Define o resultado
+    BtnOrdem.Left := 40;
+    BtnOrdem.Top := Dlg.ClientHeight - 50;
+    BtnOrdem.Width := 100;
+
+    // Criando botão "Orçamento"
+    BtnOrcamento := TButton.Create(Dlg);
+    BtnOrcamento.Parent := Dlg;
+    BtnOrcamento.Caption := 'Orçamento';
+    BtnOrcamento.ModalResult := mrNo;
+    BtnOrcamento.Left := BtnOrdem.Left + BtnOrdem.Width + 10;
+    BtnOrcamento.Top := BtnOrdem.Top;
+    BtnOrcamento.Width := 100;
+
+
+    // Exibe o diálogo e captura a resposta
+    Result := Dlg.ShowModal;
+
+  finally
+    Dlg.Free;
+  end;
+end;
+
 procedure TFrmOrdemServicos.scGPGlyphButton9Click(Sender: TObject);
 begin
   Close;
@@ -493,7 +539,7 @@ begin
       begin
         if (edtCodigo.Text <> '') and (edtNome.Text <> '') then
           begin
-            if MessageDlg('Deseja gerar uma nova OS?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+            if MessageDlg('Deseja gerar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
               begin
                 // Verificando se o código pode ser convertido para inteiro
                 if TryStrToInt(edtCodigo.Text,idCliente) then
@@ -636,7 +682,7 @@ begin
     //mConsultaOrdens.qryTotais.Refresh;
 
     Action := caFree;
-    FrmOrdemServicos := nil;
+    //FrmOrdemServicos := nil;
 
 end;
 
@@ -671,6 +717,21 @@ begin
               QOrdem.Open;
               mmoObservacoes.Text := DmOrdemServicos.QOrdem.FieldByName('observacao').AsString;
 
+              // Verifica se a operação se trata de um orçamento
+              if qOrdem.FieldByName('ehOrcamento').AsInteger = 0 then
+                begin
+                  Label6.Caption:= 'Ordem de Serviços';
+                  Label7.Caption := 'O.S';
+                  ehOrcamento := 0;
+                end
+              else
+                begin
+                  Label6.Caption:= 'ORÇAMENTO';
+                  Label7.Caption := 'ORÇAMENTO';
+                  ehOrcamento := 1;
+                end;
+
+
               //Objeto
               DmOrdemServicos.QObjeto.Close;
               DmOrdemServicos.QObjeto.ParamByName('idOrdemServico').AsInteger := idOrdemServico;
@@ -679,6 +740,7 @@ begin
             end
         else
             begin
+              AbrirOrcamentoOuOS;
               QObjeto.ParamByName('idOrdemServico').AsInteger := idOrdemServico;
               QObjeto.Open;
               QObjeto.Append;
@@ -897,6 +959,28 @@ begin
     on E: Exception do
       Application.MessageBox(PChar('Erro ao inserir serviço: ' + E.Message), 'Atenção', mb_OK + mb_IconExclamation);
   end;
+end;
+
+procedure TFrmOrdemServicos.AbrirOrcamentoOuOS;
+var
+  Escolha: Integer;
+begin
+  Escolha := MostrarDialogo;
+
+  if Escolha = mrYes then
+      begin
+        Label6.Caption:= 'Ordem de Serviços';
+        Label7.Caption := 'O.S';
+        ehOrcamento := 0;
+      end
+  else if Escolha = mrNo then
+      begin
+        Label6.Caption:= 'Orçamento'; // Aqui você pode chamar a função correspondente
+        Label7.Caption := 'ORÇAMENTO';
+        ehOrcamento := 1;
+      end
+  else
+      close;
 end;
 
 procedure TFrmOrdemServicos.AdjustColumnsByPercentage(DBGrid: TDBGrid; ColumnPercents: array of Double);

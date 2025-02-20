@@ -2,7 +2,7 @@ unit UProcedures;
 
 interface
   uses
-  System.SysUtils, System.Variants, System.Classes, Winapi.Windows;
+  System.SysUtils, System.Variants, System.Classes, Winapi.Windows,Data.DB;
 
   function AbrirOrdem(idclient:integer):Boolean;
   function editarClienteOrdem(idOrdemServico, idCliente: Integer): Boolean;
@@ -11,10 +11,11 @@ interface
   function editarProduto(id_item_ordem:integer):Boolean;
   function excluirProduto(id_item_ordem:integer):Boolean;
   function atualizarOrdemServico(idOrdemServico:integer):Boolean;
-  function detalhes(id_ordem,situacao,filial:integer):Boolean;
+  function detalhes(id_ordem,situacao,filial,ehOrcamento,subTipo: Integer): Boolean;
   function cancelar_ordem(id_ordem:integer):Boolean;
   function estornar_ordem(id_ordem:integer):Boolean;
   function  PegaTempDir : String;
+
 
 implementation
 
@@ -28,57 +29,89 @@ var
 begin
   Result := False;
   try
+    // Definindo a string SQL
     SQL := 'INSERT INTO ORDEM_SERVICO ' +
            '(id_entidade_cliente, nome_cliente, fone_ddd_cliente, fone_numero_cliente, celular_ddd_cliente, ' +
            'celular_numero_cliente, email_cliente, id_categoria_ordem_servico, situacao, prioridade, ' +
            'aguardando_material, aguardando_aprovacao_orcamento, id_usuario_cadastro, data_hora_cadastro, ' +
-           'data_hora_previsao, situacao_entrega, situacao_impressao, hash_md5, observacao, controle_interno, id_filial) ' +
+           'data_hora_previsao, situacao_entrega, situacao_impressao, hash_md5, observacao, controle_interno, id_filial, ehOrcamento, ' +
+           'data_hora_cadastro_orcamento) ' +
            'VALUES ' +
            '(:id_entidade_cliente, :nome_cliente, :fone_ddd_cliente, :fone_numero_cliente, :celular_ddd_cliente, ' +
            ':celular_numero_cliente, :email_cliente, :id_categoria_ordem_servico, :situacao, :prioridade, ' +
            ':aguardando_material, :aguardando_aprovacao_orcamento, :id_usuario_cadastro, :data_hora_cadastro, ' +
-           ':data_hora_previsao, :situacao_entrega, :situacao_impressao, :hash_md5, :observacao, :controle_interno, :id_filial); ' +
+           ':data_hora_previsao, :situacao_entrega, :situacao_impressao, :hash_md5, :observacao, :controle_interno, ' +
+           ':id_filial,:ehOrcamento, :data_hora_cadastro_orcamento); ' +
            'SELECT SCOPE_IDENTITY() AS id';
 
-    DmOrdemServicos.QGerarOrdem.SQL.Clear;
-    DmOrdemServicos.QGerarOrdem.SQL.Text := SQL;
+    // Iniciando a transação
+    DmOrdemServicos.fdTransaction.StartTransaction;
+    try
+      DmOrdemServicos.QGerarOrdem.SQL.Clear;
+      DmOrdemServicos.QGerarOrdem.SQL.Text := SQL;
 
-    with DmOrdemServicos do
-    begin
-      QGerarOrdem.ParamByName('id_entidade_cliente').AsInteger := StrToInt(FrmOrdemServicos.edtCodigo.Text);
-      QGerarOrdem.ParamByName('nome_cliente').AsString := FrmOrdemServicos.edtNome.Text;
-      QGerarOrdem.ParamByName('fone_ddd_cliente').AsString := QBuscaClientes.FieldByName('fone_primario_ddd').AsString;
-      QGerarOrdem.ParamByName('fone_numero_cliente').AsString := QBuscaClientes.FieldByName('fone_primario_numero').AsString;
-      QGerarOrdem.ParamByName('celular_ddd_cliente').AsString := QBuscaClientes.FieldByName('fone_secundario_ddd').AsString;
-      QGerarOrdem.ParamByName('celular_numero_cliente').AsString := QBuscaClientes.FieldByName('fone_secundario_numero').AsString;
-      QGerarOrdem.ParamByName('email_cliente').AsString := QBuscaClientes.FieldByName('email').AsString;
-      QGerarOrdem.ParamByName('id_categoria_ordem_servico').AsInteger := 1;
-      QGerarOrdem.ParamByName('situacao').AsInteger := 0;
-      QGerarOrdem.ParamByName('prioridade').AsInteger := 0;
-      QGerarOrdem.ParamByName('aguardando_material').AsInteger := 0;
-      QGerarOrdem.ParamByName('aguardando_aprovacao_orcamento').AsInteger := 0;
-      QGerarOrdem.ParamByName('id_usuario_cadastro').AsInteger := TUserSession.GetInstance.UserID;
-      QGerarOrdem.ParamByName('data_hora_cadastro').AsDateTime := Now;
-      QGerarOrdem.ParamByName('data_hora_previsao').AsDateTime := Now;
-      QGerarOrdem.ParamByName('situacao_entrega').AsInteger := 0;
-      QGerarOrdem.ParamByName('situacao_impressao').AsInteger := 0;
-      QGerarOrdem.ParamByName('hash_md5').AsString := '2e79996e1e6c281cf9c65073112ce4da';
-      QGerarOrdem.ParamByName('observacao').AsString := '';
-      QGerarOrdem.ParamByName('controle_interno').AsString := '';
-      qGerarOrdem.ParamByName('id_filial').AsInteger := TUserSession.GetInstance.FilialTrabalhoID;
-    end;
-
-    DmOrdemServicos.QGerarOrdem.Open;
-    FrmOrdemServicos.idOrdemServico := DmOrdemServicos.QGerarOrdem.FieldByName('ID').AsInteger;
-    view_principal.idOrdemServico := DmOrdemServicos.QGerarOrdem.FieldByName('ID').AsInteger;
-    Result := True;
-  except
-    on E: Exception do
+      with DmOrdemServicos.QGerarOrdem do
       begin
+        // Definindo os parâmetros
+        ParamByName('id_entidade_cliente').AsInteger := StrToInt(FrmOrdemServicos.edtCodigo.Text);
+        ParamByName('nome_cliente').AsString := FrmOrdemServicos.edtNome.Text;
+        ParamByName('fone_ddd_cliente').AsString := DmOrdemServicos.qBuscaClientes.FieldByName('fone_primario_ddd').AsString;
+        ParamByName('fone_numero_cliente').AsString := DmOrdemServicos.qBuscaClientes.FieldByName('fone_primario_numero').AsString;
+        ParamByName('celular_ddd_cliente').AsString := DmOrdemServicos.qBuscaClientes.FieldByName('fone_secundario_ddd').AsString;
+        ParamByName('celular_numero_cliente').AsString := DmOrdemServicos.QBuscaClientes.FieldByName('fone_secundario_numero').AsString;
+        ParamByName('email_cliente').AsString := DmOrdemServicos.QBuscaClientes.FieldByName('email').AsString;
+        ParamByName('id_categoria_ordem_servico').AsInteger := 1;
+        ParamByName('situacao').AsInteger := 0;
+        ParamByName('prioridade').AsInteger := 0;
+        ParamByName('aguardando_material').AsInteger := 0;
+        ParamByName('aguardando_aprovacao_orcamento').AsInteger := 0;
+        ParamByName('id_usuario_cadastro').AsInteger := TUserSession.GetInstance.UserID;
+        ParamByName('data_hora_cadastro').AsDateTime := Now;
+        ParamByName('data_hora_previsao').AsDateTime := Now;
+        ParamByName('situacao_entrega').AsInteger := 0;
+        ParamByName('situacao_impressao').AsInteger := 0;
+        ParamByName('hash_md5').AsString := '2e79996e1e6c281cf9c65073112ce4da';
+        ParamByName('observacao').AsString := '';
+        ParamByName('controle_interno').AsString := '';
+        ParamByName('id_filial').AsInteger := TUserSession.GetInstance.FilialTrabalhoID;
+        ParamByName('ehOrcamento').AsInteger := Ord(FrmOrdemServicos.ehOrcamento <> 0); // Simplificado
+        if ParamByName('ehOrcamento').AsInteger = 1 then
+           begin
+             ParamByName('data_hora_cadastro_orcamento').AsDateTime := Now;
+             ParamByName('situacao').AsInteger := 6;
+           end
+        else
+           begin
+             ParamByName('data_hora_cadastro_orcamento').DataType := ftDateTime; // Define o tipo explicitamente
+             ParamByName('data_hora_cadastro_orcamento').Clear; // Deixa o campo NULL
+           end;
+      end;
+
+      // Executando a query
+      DmOrdemServicos.QGerarOrdem.Open;
+      FrmOrdemServicos.idOrdemServico := DmOrdemServicos.QGerarOrdem.FieldByName('ID').AsInteger;
+      view_principal.idOrdemServico := DmOrdemServicos.QGerarOrdem.FieldByName('ID').AsInteger;
+
+      // Completando a transação
+      DmOrdemServicos.fdTransaction.Commit;
+      Result := True;
+    except
+      on E: Exception do
+      begin
+        // Revertendo a transação em caso de erro
+        DmOrdemServicos.fdTransaction.Rollback;
         Result := False;
       end;
+    end;
+  except
+    on E: Exception do
+    begin
+      // Tratamento geral de erro, se necessário
+      Result := False;
+    end;
   end;
 end;
+
 
 
 function editarClienteOrdem(idOrdemServico, idCliente: Integer): Boolean;
@@ -205,27 +238,88 @@ function atualizarOrdemServico(idOrdemServico:integer):Boolean;
 
     end;
   end;
-function detalhes(id_ordem,situacao,filial:integer):Boolean;
-  begin
-    try
-        DmOrdemServicos.QAtualizaOrdem.SQL.Clear;
-        DmOrdemServicos.QAtualizaOrdem.SQL.Add('UPDATE ORDEM_SERVICO');
-        DmOrdemServicos.QAtualizaOrdem.SQL.Add('set situacao = :situacao,');
-        DmOrdemServicos.QAtualizaOrdem.SQL.Add('controle_interno = :controle,');
-        DmOrdemServicos.QAtualizaOrdem.SQL.Add('id_filial = :id_filial');
-        DmOrdemServicos.QAtualizaOrdem.SQL.Add('where id_ordem_servico = :id_ordem');
-        DmOrdemServicos.QAtualizaOrdem.ParamByName('situacao').AsInteger := situacao;
-        DmOrdemServicos.QAtualizaOrdem.ParamByName('controle').AsString := FrmDetalhe.EdtOrdem.Text;
-        DmOrdemServicos.QAtualizaOrdem.ParamByName('id_filial').AsInteger := filial;
-        DmOrdemServicos.QAtualizaOrdem.ParamByName('id_ordem').AsInteger := id_ordem;
-        DmOrdemServicos.QAtualizaOrdem.ExecSQL;
-    except
-      Result := False;
 
+function detalhes(id_ordem,situacao,filial,ehOrcamento,subTipo: Integer): Boolean;
+var
+  sqlUpdate: TStringList;
+begin
+  Result := False;
+  try
+    DmOrdemServicos.fdTransaction.StartTransaction;
+    sqlUpdate := TStringList.Create;
+    try
+      sqlUpdate.Add('UPDATE ORDEM_SERVICO SET');
+      sqlUpdate.Add('situacao = :situacao,');
+      sqlUpdate.Add('controle_interno = :controle,');
+      sqlUpdate.Add('id_filial = :id_filial');
+
+      if situacao = 2 then
+      begin
+        sqlUpdate.Add(', id_usuario_finalizacao = :id_usuario_finalizacao');
+        sqlUpdate.Add(', data_hora_finalizacao = :data_hora_finalizacao');
+      end;
+
+      if (situacao = 0) and (ehorcamento = 1) then
+      begin
+        sqlUpdate.Add(', id_usuario_conversao = :id_usuario_conversao');
+        sqlUpdate.Add(', data_hora_conversao = :data_hora_conversao');
+        sqlUpdate.Add(', ehOrcamento = :ehOrcamento');
+      end;
+
+      if situacao = 8 then
+        begin
+          sqlUpdate.Add(', subTipo = :subTipo');
+          sqlUpdate.Add(', data_hora_orcamento_perda = :data_hora_orcamento_perda');
+        end;
+
+      sqlUpdate.Add(' WHERE id_ordem_servico = :id_ordem');
+
+      with DmOrdemServicos.QAtualizaOrdem do
+      begin
+        SQL.Text := sqlUpdate.Text;
+        ParamByName('situacao').AsInteger := situacao;
+        ParamByName('controle').AsString := FrmDetalhe.EdtOrdem.Text;
+        ParamByName('id_filial').AsInteger := filial;
+        ParamByName('id_ordem').AsInteger := id_ordem;
+
+        if situacao = 2 then
+          begin
+            ParamByName('id_usuario_finalizacao').AsInteger := TUserSession.GetInstance.UserID;
+            ParamByName('data_hora_finalizacao').AsDateTime := Now;
+          end;
+
+        if (situacao = 0) and (ehorcamento = 1) then
+          begin
+            ParamByName('id_usuario_conversao').AsInteger := TUserSession.GetInstance.UserID;
+            ParamByName('data_hora_conversao').AsDateTime := Now;
+            ParamByName('ehOrcamento').AsInteger := 0;
+          end;
+
+        if situacao = 8 then
+          begin
+            ParamByName('subTipo').AsInteger := subTipo;
+            ParamByName('data_hora_orcamento_perda').AsDateTime := Now;
+          end;
+
+        ExecSQL;
+      end;
+
+      DmOrdemServicos.fdTransaction.Commit;
+      Result := True;
+    finally
+      sqlUpdate.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      DmOrdemServicos.fdTransaction.Rollback;
+      Result := False;
     end;
   end;
+end;
 
-  function cancelar_ordem(id_ordem:integer):Boolean;
+
+function cancelar_ordem(id_ordem:integer):Boolean;
     begin
       try
         DmConsultaOrdem.Query.SQL.Clear;
@@ -279,5 +373,6 @@ begin
     FreeMem(diretoriotemp);
   end;
 end;
+
 
 end.
