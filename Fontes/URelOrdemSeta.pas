@@ -70,13 +70,9 @@ type
     txtOrdem: TQRDBText;
     txtMotorista: TQRDBText;
     qrbnd_hearder_diagnostico: TQRBand;
-    QRLabel20: TQRLabel;
     qrsbdtl_detail_diagnostico: TQRSubDetail;
-    qrdbrchtxtdiagnostico1: TQRDBRichText;
     qrbnd_header_defeito: TQRBand;
-    QRLabel19: TQRLabel;
     qrsbdtl_detail_defeito: TQRSubDetail;
-    qrdbrchtxtdiagnostico: TQRDBRichText;
     qrbnd_header_servicos: TQRBand;
     QRLabel22: TQRLabel;
     QRLabel23: TQRLabel;
@@ -126,9 +122,17 @@ type
     txtdata: TQRDBText;
     QRLabel36: TQRLabel;
     txtNCM: TQRDBText;
+    QRMemo1: TQRMemo;
+    QRMemo2: TQRMemo;
+    QRLabel19: TQRLabel;
+    QRLabel20: TQRLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure qrsbdtl_detail_diagnosticoBeforePrint(Sender: TQRCustomBand;
+      var PrintBand: Boolean);
+    procedure qrsbdtl_detail_defeitoBeforePrint(Sender: TQRCustomBand;
+      var PrintBand: Boolean);
   private
     { Private declarations }
   public
@@ -205,6 +209,18 @@ begin
   DmImpressao.qryObjetos.close;
   DmImpressao.Free;
   DmImpressao := nil;
+end;
+
+procedure TFrmRelSeta.qrsbdtl_detail_defeitoBeforePrint(Sender: TQRCustomBand;
+  var PrintBand: Boolean);
+begin
+  QRMemo2.Lines.Text := dmImpressao.qryObjetos.FieldByName('diagnostico').AsString;
+end;
+
+procedure TFrmRelSeta.qrsbdtl_detail_diagnosticoBeforePrint(
+  Sender: TQRCustomBand; var PrintBand: Boolean);
+begin
+  QRMemo1.Lines.Text := dmImpressao.qryObjetos.FieldByName('defeito_relatado').AsString;
 end;
 
 end.

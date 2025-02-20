@@ -5843,42 +5843,44 @@ object FrmRelSeta: TFrmRelSeta
       PreCaluculateBandHeight = False
       KeepOnOnePage = False
       BandType = rbGroupHeader
-      object QRLabel20: TQRLabel
-        Left = 3
+      object QRLabel19: TQRLabel
+        Left = 0
         Top = 0
-        Width = 170
-        Height = 19
+        Width = 65
+        Height = 21
+        ParentCustomHint = False
         Size.Values = (
-          50.270833333333330000
-          7.937500000000000000
+          55.562500000000000000
           0.000000000000000000
-          449.791666666666700000)
+          0.000000000000000000
+          171.979166666666700000)
         XLColumn = 0
         XLNumFormat = nfGeneral
         ActiveInPreview = False
         Alignment = taLeftJustify
         AlignToBand = False
-        Caption = 'SERVI'#199'OS REALIZADOS'
+        Caption = 'DEFEITO:'
         Color = clWhite
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Arial Black'
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         ParentFont = False
         Transparent = False
         ExportAs = exptText
         WrapStyle = BreakOnSpaces
         VerticalAlignment = tlTop
-        FontSize = 10
+        FontSize = 11
       end
     end
     object qrsbdtl_detail_diagnostico: TQRSubDetail
       Left = 23
       Top = 417
       Width = 760
-      Height = 24
+      Height = 20
       AlignToBottom = False
+      BeforePrint = qrsbdtl_detail_diagnosticoBeforePrint
       TransparentBand = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -5889,7 +5891,7 @@ object FrmRelSeta: TFrmRelSeta
       ForceNewPage = False
       ParentFont = False
       Size.Values = (
-        63.500000000000000000
+        52.916666666666670000
         2010.833333333333000000)
       PreCaluculateBandHeight = False
       KeepOnOnePage = False
@@ -5897,39 +5899,40 @@ object FrmRelSeta: TFrmRelSeta
       HeaderBand = qrbnd_hearder_diagnostico
       PrintBefore = False
       PrintIfEmpty = True
-      object qrdbrchtxtdiagnostico1: TQRDBRichText
-        Left = 1
-        Top = 0
-        Width = 762
-        Height = 22
+      object QRMemo1: TQRMemo
+        Left = 0
+        Top = 2
+        Width = 64
+        Height = 18
         Size.Values = (
-          58.208333333333330000
-          2.645833333333333000
+          47.625000000000000000
           0.000000000000000000
-          2016.125000000000000000)
+          5.291666666666667000
+          169.333333333333300000)
         XLColumn = 0
         XLNumFormat = nfGeneral
         ActiveInPreview = False
         Alignment = taLeftJustify
+        AlignToBand = False
         AutoStretch = True
-        Color = clWindow
+        Color = clWhite
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
-        Font.Name = 'Tahoma'
+        Font.Name = 'Segoe UI'
         Font.Style = []
-        HiresExport = False
+        ParentFont = False
         Transparent = False
-        YIncrement = 50
-        DataField = 'diagnostico'
-        DataSet = dmImpressao.qryObjetos
+        FullJustify = False
+        MaxBreakChars = 0
+        FontSize = 10
       end
     end
     object qrbnd_header_defeito: TQRBand
       Left = 23
-      Top = 441
+      Top = 437
       Width = 760
-      Height = 20
+      Height = 24
       AlignToBottom = False
       TransparentBand = False
       Font.Charset = DEFAULT_CHARSET
@@ -5941,40 +5944,39 @@ object FrmRelSeta: TFrmRelSeta
       ForceNewPage = False
       ParentFont = False
       Size.Values = (
-        52.916666666666670000
+        63.500000000000000000
         2010.833333333333000000)
       PreCaluculateBandHeight = False
       KeepOnOnePage = False
       BandType = rbGroupHeader
-      object QRLabel19: TQRLabel
-        Left = 1
-        Top = 0
-        Width = 67
-        Height = 19
-        ParentCustomHint = False
+      object QRLabel20: TQRLabel
+        Left = 0
+        Top = 5
+        Width = 166
+        Height = 21
         Size.Values = (
-          50.270833333333330000
-          2.645833333333333000
+          55.562500000000000000
           0.000000000000000000
-          177.270833333333300000)
+          13.229166666666670000
+          439.208333333333300000)
         XLColumn = 0
         XLNumFormat = nfGeneral
         ActiveInPreview = False
         Alignment = taLeftJustify
         AlignToBand = False
-        Caption = 'DEFEITO:'
+        Caption = 'SERVI'#199'OS REALIZADOS'
         Color = clWhite
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Arial Black'
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         ParentFont = False
         Transparent = False
         ExportAs = exptText
         WrapStyle = BreakOnSpaces
         VerticalAlignment = tlTop
-        FontSize = 10
+        FontSize = 11
       end
     end
     object qrsbdtl_detail_defeito: TQRSubDetail
@@ -5983,6 +5985,7 @@ object FrmRelSeta: TFrmRelSeta
       Width = 760
       Height = 20
       AlignToBottom = False
+      BeforePrint = qrsbdtl_detail_defeitoBeforePrint
       TransparentBand = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -6001,32 +6004,33 @@ object FrmRelSeta: TFrmRelSeta
       HeaderBand = qrbnd_header_defeito
       PrintBefore = False
       PrintIfEmpty = True
-      object qrdbrchtxtdiagnostico: TQRDBRichText
-        Left = 2
-        Top = 0
-        Width = 763
-        Height = 20
+      object QRMemo2: TQRMemo
+        Left = 0
+        Top = 2
+        Width = 64
+        Height = 18
         Size.Values = (
-          52.916666666666670000
-          5.291666666666667000
+          47.625000000000000000
           0.000000000000000000
-          2018.770833333333000000)
+          5.291666666666667000
+          169.333333333333300000)
         XLColumn = 0
         XLNumFormat = nfGeneral
         ActiveInPreview = False
         Alignment = taLeftJustify
+        AlignToBand = False
         AutoStretch = True
-        Color = clWindow
+        Color = clWhite
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
-        Font.Name = 'Tahoma'
+        Font.Name = 'Segoe UI'
         Font.Style = []
-        HiresExport = False
+        ParentFont = False
         Transparent = False
-        YIncrement = 50
-        DataField = 'defeito_relatado'
-        DataSet = dmImpressao.qryObjetos
+        FullJustify = False
+        MaxBreakChars = 0
+        FontSize = 10
       end
     end
     object qrbnd_header_servicos: TQRBand
